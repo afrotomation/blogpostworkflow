@@ -7,7 +7,7 @@
 		<title>Blog Post Workflow — Latest blog posts in your README</title>
 		<meta
 			name="description"
-			content="A GitHub Action that pulls your latest Hashnode (or RSS) blog posts straight into your README. Live demo, customizable count, copy-paste markdown."
+			content="A GitHub Action that pulls your latest dev.to (or RSS) blog posts straight into your README. Live demo, customizable count, copy-paste markdown."
 		/>
 		<link
 			rel="icon"
@@ -214,7 +214,7 @@
 				<span class="pill">GitHub Action · Self-hosted demo on Kubernetes</span>
 				<h1>Latest blog posts,<br />pinned to your README.</h1>
 				<p>
-					A GitHub Action that pulls your latest Hashnode (or any RSS feed) posts and
+					A GitHub Action that pulls your latest dev.to (or any RSS feed) posts and
 					rewrites the marker block in your README on a schedule. No more manually
 					updating your portfolio every time you publish.
 				</p>
@@ -227,14 +227,14 @@
 			<section id="demo">
 				<h2>Try it</h2>
 				<p class="sub">
-					Type a Hashnode publication host (custom domain or
-					<code>username.hashnode.dev</code>). The preview and README markdown
+					Type a dev.to publication host (custom domain or
+					<code>username.dev.to.dev</code>). The preview and README markdown
 					update live.
 				</p>
 				<div class="demo-grid">
 					<form class="card controls" id="form">
 						<div class="field">
-							<label for="host">Hashnode host</label>
+							<label for="host">dev.to host</label>
 							<input id="host" name="host" type="text" value="blog.tioye.dev" autocomplete="off" spellcheck="false" />
 						</div>
 						<div class="field">
@@ -274,14 +274,14 @@
 						<button type="button" class="btn" data-host="blog.tioye.dev">Load</button>
 					</div>
 					<div class="card example">
-						<span class="label">Hashnode default</span>
-						<span class="host">codenificient.hashnode.dev</span>
-						<button type="button" class="btn" data-host="codenificient.hashnode.dev">Load</button>
+						<span class="label">dev.to default</span>
+						<span class="host">dev.to/codenificient</span>
+						<button type="button" class="btn" data-host="dev.to/codenificient">Load</button>
 					</div>
 					<div class="card example">
-						<span class="label">Hashnode engineering</span>
-						<span class="host">engineering.hashnode.com</span>
-						<button type="button" class="btn" data-host="engineering.hashnode.com">Load</button>
+						<span class="label">dev.to engineering</span>
+						<span class="host">engineering.dev.to.com</span>
+						<button type="button" class="btn" data-host="engineering.dev.to.com">Load</button>
 					</div>
 				</div>
 			</section>
@@ -303,7 +303,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: codenificient/blog-post-workflow@v1
         with:
-          hashnode_api_key: ${{ secrets.HASHNODE_API_KEY }}
+          devto_api_key: ${{ secrets.DEVTO_API_KEY }}
           github_username: 'your-github-username'</code></pre>
 			</section>
 
@@ -350,7 +350,7 @@ jobs:
 				const host = hostInput.value.trim();
 				const max = maxSelect.value;
 				if (!host) {
-					status.textContent = "Enter a Hashnode host first.";
+					status.textContent = "Enter a dev.to host first.";
 					status.className = "status error";
 					return;
 				}

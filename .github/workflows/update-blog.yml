@@ -1,4 +1,4 @@
-name: Update GitHub Profile README with Latest Hashnode Posts
+name: Update GitHub Profile README with Latest dev.to Posts
 
 on:
   schedule:
@@ -13,7 +13,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      HASHNODE_API_KEY: ${{ secrets.HASHNODE_API_KEY }}
+      # dev.to's read API is public — no secret required.
+      DEVTO_USERNAME: codenificient
 
     steps:
       - name: Checkout this repo (blog-fetcher)
@@ -40,5 +41,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add README.md
-          git commit -m "Update README with latest Hashnode blog posts" || echo "No changes to commit"
+          git commit -m "Update README with latest dev.to blog posts" || echo "No changes to commit"
           git push

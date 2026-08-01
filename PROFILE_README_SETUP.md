@@ -1,22 +1,22 @@
 # Profile README Setup Guide
 
-This guide will help you set up the Hashnode blog post integration with your GitHub profile README at [https://github.com/codenificient/codenificient](https://github.com/codenificient/codenificient).
+This guide will help you set up the dev.to blog post integration with your GitHub profile README at [https://github.com/codenificient/codenificient](https://github.com/codenificient/codenificient).
 
 ## 🎯 What This Will Do
 
-Automatically update your GitHub profile README with your latest Hashnode blog posts every 6 hours, keeping your profile fresh and engaging.
+Automatically update your GitHub profile README with your latest dev.to blog posts every 6 hours, keeping your profile fresh and engaging.
 
 ## 📋 Prerequisites
 
-1. **Hashnode API Key** - Get it from [Hashnode Developer Settings](https://hashnode.com/settings/developer)
+1. **dev.to API Key** - Get it from [dev.to Developer Settings](https://dev.to.com/settings/developer)
 2. **GitHub Personal Access Token** - With `repo` scope for your profile repository
 3. **Profile Repository** - Must be named exactly `codenificient/codenificient`
 
 ## 🚀 Step-by-Step Setup
 
-### Step 1: Get Your Hashnode API Key
+### Step 1: Get Your dev.to API Key
 
-1. Go to [Hashnode Developer Settings](https://hashnode.com/settings/developer)
+1. Go to [dev.to Developer Settings](https://dev.to.com/settings/developer)
 2. Click "Generate API Key"
 3. Copy the generated key (you'll need this for Step 3)
 
@@ -38,9 +38,9 @@ Automatically update your GitHub profile README with your latest Hashnode blog p
 4. Click **New repository secret**
 5. Add these two secrets:
 
-#### Secret 1: `HASHNODE_API_KEY`
-- **Name**: `HASHNODE_API_KEY`
-- **Value**: Your Hashnode API key from Step 1
+#### Secret 1: `DEVTO_API_KEY`
+- **Name**: `DEVTO_API_KEY`
+- **Value**: Your dev.to API key from Step 1
 
 #### Secret 2: `PROFILE_TOKEN`
 - **Name**: `PROFILE_TOKEN`
@@ -75,7 +75,7 @@ I'm a developer passionate about...
 
 1. Go to your profile repository: [https://github.com/codenificient/codenificient](https://github.com/codenificient/codenificient)
 2. Click **Actions** tab
-3. Click **Update Profile README with Hashnode Blog Posts**
+3. Click **Update Profile README with dev.to Blog Posts**
 4. Click **Run workflow** → **Run workflow**
 5. Watch the workflow run and check for success
 
@@ -101,12 +101,12 @@ Your README will automatically show posts like this:
 1. **Day 5 of Demolishing My Stack of Unfinished Projects: The AI-Assisted Development Revolution**
    - 📅 Mon Aug 28 2025
    - 🏷️ MacBook Pro, project management
-   - 🔗 [Read more](https://hashnode.com/day-5-of-demolishing-my-stack-of-unfinished-projects-the-ai-assisted-development-revolution)
+   - 🔗 [Read more](https://dev.to.com/day-5-of-demolishing-my-stack-of-unfinished-projects-the-ai-assisted-development-revolution)
 
 2. **The Aspiring AI Engineer: Educative Learning Path**
    - 📅 Mon Aug 28 2025
    - 🏷️ Python, Machine Learning, educative, Career Growth
-   - 🔗 [Read more](https://hashnode.com/the-aspiring-ai-engineer-educative-learning-path)
+   - 🔗 [Read more](https://dev.to.com/the-aspiring-ai-engineer-educative-learning-path)
 ```
 
 ## 🚨 Troubleshooting
@@ -118,12 +118,12 @@ Your README will automatically show posts like this:
    - Check that the `PROFILE_TOKEN` has `repo` scope
 
 2. **"API key invalid"**
-   - Verify your Hashnode API key is correct
+   - Verify your dev.to API key is correct
    - Check that the key hasn't expired
 
 3. **"No posts found"**
-   - Verify your Hashnode username: `codenificient.hashnode.dev`
-   - Ensure you have published posts on Hashnode
+   - Verify your dev.to username: `dev.to/codenificient`
+   - Ensure you have published posts on dev.to
 
 4. **"Permission denied"**
    - Check that `PROFILE_TOKEN` has `repo` scope
@@ -133,9 +133,9 @@ Your README will automatically show posts like this:
 
 1. Check the Actions tab for error messages
 2. Verify all secrets are set correctly
-3. Test your Hashnode API key locally using the test script:
+3. Test your dev.to API key locally using the test script:
    ```bash
-   npm run test:hashnode
+   npm run test:dev.to
    ```
 
 ## 🔄 Manual Updates
@@ -143,7 +143,7 @@ Your README will automatically show posts like this:
 You can manually trigger updates anytime:
 
 1. Go to **Actions** tab in your profile repository
-2. Click **Update Profile README with Hashnode Blog Posts**
+2. Click **Update Profile README with dev.to Blog Posts**
 3. Click **Run workflow**
 
 ## 📈 Monitoring
@@ -161,10 +161,10 @@ You can manually trigger updates anytime:
 
 ## 🆘 Need Help?
 
-1. Check the [HASHNODE_INTEGRATION.md](HASHNODE_INTEGRATION.md) for technical details
+1. Check [LOCAL_TESTING.md](LOCAL_TESTING.md) for technical details
 2. Review the [LOCAL_TESTING.md](LOCAL_TESTING.md) for testing guidance
 3. Open an issue in this repository if you encounter problems
 
 ---
 
-**Your profile README will now automatically showcase your latest Hashnode blog posts! 🚀**
+**Your profile README will now automatically showcase your latest dev.to blog posts! 🚀**

@@ -15,16 +15,19 @@ inputs:
     description: 'Maximum number of posts you want to show on your readme, all feeds combined'
     default: '5'
     required: false
-  # Hashnode GraphQL API inputs
-  hashnode_api_key:
-    description: 'Hashnode API key for GraphQL access'
+  # dev.to inputs
+  devto_username:
+    description: 'dev.to username to fetch posts for'
+    required: false
+  devto_api_key:
+    description: 'dev.to API key. Optional — only needed to read unpublished drafts'
     required: false
   github_username:
-    description: 'GitHub username to fetch Hashnode posts for'
+    description: 'Deprecated alias for devto_username, kept for compatibility'
     required: false
   # Legacy RSS inputs (kept for backward compatibility)
   feed_list:
-    description: "Comma separated list of RSS feed urls (legacy, use hashnode_api_key + github_username for Hashnode)"
+    description: "Comma separated list of RSS feed urls (legacy, use devto_username instead)"
     default: ""
     required: false
   disable_sort:

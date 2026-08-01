@@ -16,4 +16,3 @@ src-report.json
 dist-report.json
 README.md
 *.md
-!HASHNODE_INTEGRATION.md

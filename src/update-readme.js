@@ -1,9 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const core = require('@actions/core');
-const HashnodeClient = require('./hashnode-client');
+const DevToClient = require('./devto-client');
 
-const PUBLICATION_DOMAIN = 'codenificient.hashnode.dev';
+// The blog lives on dev.to now; this is the dev.to username, and the
+// read API needs no key.
+const DEVTO_USERNAME = process.env.DEVTO_USERNAME || 'codenificient';
 const MAX_POSTS = 5;
 
 // FIXED LINE HERE 👇
@@ -14,13 +16,9 @@ const END_MARKER = '<!-- BLOG-POST-LIST:END -->';
 
 (async () => {
   try {
-    const apiKey = process.env.HASHNODE_API_KEY;
-    if (!apiKey) {
-      throw new Error('Missing HASHNODE_API_KEY environment variable');
-    }
-
-    const client = new HashnodeClient(apiKey);
-    const posts = await client.fetchPosts(PUBLICATION_DOMAIN, MAX_POSTS);
+    // DEVTO_API_KEY is optional — published posts are public.
+    const client = new DevToClient(process.env.DEVTO_API_KEY);
+    const posts = await client.fetchPosts(DEVTO_USERNAME, MAX_POSTS);
 
     if (!posts.length) {
       core.warning('No blog posts found');

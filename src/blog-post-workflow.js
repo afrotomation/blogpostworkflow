@@ -6,7 +6,7 @@ const dateFormat = require('dateformat');
 const rand = require('random-seed');
 const promiseRetry = require('promise-retry');
 const keepaliveWorkflow = require('keepalive-workflow');
-const HashnodeClient = require('./hashnode-client');
+const DevToClient = require('./devto-client');
 const {
 	updateAndParseCompoundParams,
 	commitReadme,
@@ -46,9 +46,11 @@ const acceptHeader = core.getInput('accept_header');
 // Total no of posts to display on readme, all sources combined, default: 5
 const TOTAL_POST_COUNT = Number.parseInt(core.getInput('max_post_count'));
 
-// Hashnode GraphQL API inputs
-const HASHNODE_API_KEY = core.getInput('hashnode_api_key');
-const GITHUB_USERNAME = core.getInput('github_username');
+// dev.to inputs. The read API is public, so devto_api_key is optional and
+// only needed for unpublished drafts. github_username is still accepted as a
+// fallback because it was, in practice, always the same handle.
+const DEVTO_API_KEY = core.getInput('devto_api_key');
+const DEVTO_USERNAME = core.getInput('devto_username') || core.getInput('github_username');
 
 // Disables sort
 const ENABLE_SORT = core.getInput('disable_sort') === 'false';
@@ -97,8 +99,8 @@ const retryConfig = {
 };
 
 core.setSecret(GITHUB_TOKEN);
-if (HASHNODE_API_KEY) {
-	core.setSecret(HASHNODE_API_KEY);
+if (DEVTO_API_KEY) {
+	core.setSecret(DEVTO_API_KEY);
 }
 
 for (let item of core.getInput('custom_tags').trim().split(',')) {
@@ -111,17 +113,18 @@ const runnerNameArray = []; // To show the error/success message
 let postsArray = []; // Array to store posts
 let jobFailFlag = false; // Job status flag
 
-// Check if we should use Hashnode GraphQL API
-const useHashnode = HASHNODE_API_KEY && GITHUB_USERNAME;
+// Use dev.to when a username is configured. Unlike the Hashnode path this
+// does not also require an API key — dev.to's read API is public.
+const useDevTo = Boolean(DEVTO_USERNAME);
 
-if (!useHashnode) {
+if (!useDevTo) {
 	// Legacy RSS feed handling
 	const feedObjString = core.getInput('feed_list').trim();
 	
 	// Reading feed list from the workflow input
 	const feedList = feedObjString.split(',').map((item) => item.trim());
 	if (feedList.length === 0) {
-		core.error('Please provide either hashnode_api_key + github_username OR feed_list');
+		core.error('Please provide either devto_username OR feed_list');
 		process.exit(1);
 	}
 
@@ -266,15 +269,15 @@ if (!useHashnode) {
 		);
 	}
 } else {
-	// Hashnode GraphQL API handling
-	core.info(`Using Hashnode GraphQL API for GitHub username: ${GITHUB_USERNAME}`);
-	
-	const hashnodeClient = new HashnodeClient(HASHNODE_API_KEY);
+	// dev.to API handling
+	core.info(`Using dev.to API for username: ${DEVTO_USERNAME}`);
+
+	const devToClient = new DevToClient(DEVTO_API_KEY);
 	
 	promiseArray.push(
 		new Promise(async (resolve, reject) => {
 			try {
-				const posts = await hashnodeClient.fetchPosts(GITHUB_USERNAME, TOTAL_POST_COUNT);
+				const posts = await devToClient.fetchPosts(DEVTO_USERNAME, TOTAL_POST_COUNT);
 				
 				// Apply the same processing as RSS posts
 				const processedPosts = posts.map((post) => {
@@ -318,7 +321,7 @@ if (!useHashnode) {
 		})
 	);
 	
-	runnerNameArray.push(`Hashnode GraphQL API (${GITHUB_USERNAME})`);
+	runnerNameArray.push(`dev.to API (${DEVTO_USERNAME})`);
 }
 
 const runWorkflow = async () => {
