@@ -20,6 +20,20 @@ const app = express();
 const PORT = process.env.PORT || process.env.port || 9000;
 const DEVTO_API_KEY = process.env.DEVTO_API_KEY;
 
+// The same landing page is also published to Cloudflare Pages, where it calls
+// this API cross-origin. Read-only public data, so a narrow allowlist is
+// enough — no credentials, GET only.
+app.use((req, res, next) => {
+	const origin = req.headers.origin;
+	if (origin && /^https:\/\/[a-z0-9-]+\.pages\.dev$/.test(origin)) {
+		res.setHeader('Access-Control-Allow-Origin', origin);
+		res.setHeader('Vary', 'Origin');
+		res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+	}
+	if (req.method === 'OPTIONS') return res.sendStatus(204);
+	next();
+});
+
 app.use(express.static('public'));
 
 app.get('/api/health', (_req, res) => {

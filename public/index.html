@@ -258,7 +258,7 @@
 							<button type="button" class="btn copy-btn" id="copyBtn">Copy markdown</button>
 						</div>
 						<div class="url" style="margin-top: 12px;">
-							<strong>API:</strong> <span id="apiUrl">/api/preview?host=…&amp;max=…</span>
+							<strong>API:</strong> <span id="apiUrl">/api/preview?username=…&amp;max=…</span>
 						</div>
 					</div>
 				</div>
@@ -354,7 +354,13 @@ jobs:
 					status.className = "status error";
 					return;
 				}
-				const url = "/api/preview?host=" + encodeURIComponent(host) + "&max=" + encodeURIComponent(max);
+				// When this page is served by the demo server the API is same-origin.
+				// Published standalone to Cloudflare Pages there is no server behind
+				// it, so fall back to the Coolify deployment.
+				const API_BASE = window.location.hostname.endsWith(".pages.dev")
+					? "https://blogworkflow.afrotomation.com"
+					: "";
+				const url = API_BASE + "/api/preview?username=" + encodeURIComponent(host) + "&max=" + encodeURIComponent(max);
 				apiUrlSpan.textContent = url;
 				status.textContent = "Fetching " + host + "…";
 				status.className = "status loading";
